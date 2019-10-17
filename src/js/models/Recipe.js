@@ -42,7 +42,8 @@ export default class Recipe {
       'teaspoons',
       'teaspoon',
       'cups',
-      'pounds'
+      'pounds',
+      'pound'
     ];
     const unitsShort = [
       'tbsp',
@@ -52,8 +53,10 @@ export default class Recipe {
       'tsp',
       'tsp',
       'cup',
-      'pound'
+      'lbs',
+      'lb'
     ];
+    const units = [...unitsShort, 'kg', 'g'];
 
     const newIngredients = this.ingredients.map(el => {
       // 1) Standardized units
@@ -63,13 +66,11 @@ export default class Recipe {
       });
 
       //2) Remove Brackets
-      ingredient = ingredient.replace(/ *\([^)]*\) */g, ' ');
+      ingredient = ingredient.replace(/ *\([^)]*\) */g, '');
 
       //3) Parse ingredients into count, unit and ingredient
       const arrIngredients = ingredient.split(' ');
-      const unitIndx = arrIngredients.findIndex(el2 =>
-        unitsShort.includes(el2)
-      );
+      const unitIndx = arrIngredients.findIndex(el2 => units.includes(el2));
 
       let objIngredient;
       if (unitIndx > -1) {
@@ -95,14 +96,14 @@ export default class Recipe {
         // No unit, but first element is integer/number
         objIngredient = {
           count: parseInt(arrIngredients[0], 10),
-          unit: '',
+          unit: ' ',
           ingredient: arrIngredients.slice(1).join(' ')
         };
       } else if (unitIndx === -1) {
         // No unit and number exist in first position
         objIngredient = {
           count: 1,
-          unit: '',
+          unit: ' ',
           ingredient
         };
       }
