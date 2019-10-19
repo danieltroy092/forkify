@@ -3,6 +3,7 @@
         "afterbegin",
         "beforeend",
         "tbsps",
-        "tsps"
+        "tsps",
+        "uniqid"
     ]
 }
