@@ -5,6 +5,7 @@ import Likes from './models/Likes';
 import * as searchView from './views/searchView';
 import * as recipeView from './views/recipeView';
 import * as listView from './views/listView';
+import * as likesView from './views/likesView';
 import { elements, renderLoader, clearLoader } from './views/base';
 
 /** Global state of the app
@@ -85,7 +86,7 @@ const controlRecipe = async () => {
 
       //render recipe
       clearLoader();
-      recipeView.renderRecipe(state.recipe);
+      recipeView.renderRecipe(state.recipe, state.likes.isLiked(id));
     } catch (error) {
       alert('Error processing recipe');
     }
@@ -127,6 +128,10 @@ elements.shopping.addEventListener('click', e => {
 });
 
 /** LIKES CONTROLLER **/
+
+state.likes = new Likes(); //TESTING
+likesView.toggleLikeMenu(state.likes.getNumLikes()); //TESTING
+
 const controlLike = () => {
   if (!state.likes) state.likes = new Likes();
   const curID = state.recipe.id;
@@ -142,9 +147,10 @@ const controlLike = () => {
     );
 
     // toggle the like button
+    likesView.toggleLikeBtn(true);
 
     //Add like to UI list
-    console.log(state.likes);
+    likesView.renderLike(newLike);
 
     // user HAS liked current recipe
   } else {
@@ -152,10 +158,12 @@ const controlLike = () => {
     state.likes.deleteLike(curID);
 
     // toggle the like button
+    likesView.toggleLikeBtn(false);
 
     //remove like from UI list
-    console.log(state.likes);
+    likesView.deleteLike(curID);
   }
+  likesView.toggleLikeMenu(state.likes.getNumLikes());
 };
 
 // Handling recipe button clicks
