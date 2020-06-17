@@ -9,7 +9,7 @@ export default class Recipe {
   async getRecipe() {
     try {
       const res = await axios(
-        `${proxy}https://www.food2fork.com/api/get?key=${key}&rId=${this.id}`
+        `https://forkify-api.herokuapp.com/api/get?rId=${this.id}`
       );
       this.title = res.data.recipe.title;
       this.author = res.data.recipe.publisher;
@@ -43,7 +43,7 @@ export default class Recipe {
       'teaspoon',
       'cups',
       'pounds',
-      'pound'
+      'pound',
     ];
     const unitsShort = [
       'tbsp',
@@ -54,11 +54,11 @@ export default class Recipe {
       'tsp',
       'cup',
       'lbs',
-      'lb'
+      'lb',
     ];
     const units = [...unitsShort, 'kg', 'g'];
 
-    const newIngredients = this.ingredients.map(el => {
+    const newIngredients = this.ingredients.map((el) => {
       // 1) Standardized units
       let ingredient = el.toLowerCase();
       unitsLong.forEach((unit, i) => {
@@ -70,7 +70,7 @@ export default class Recipe {
 
       //3) Parse ingredients into count, unit and ingredient
       const arrIngredients = ingredient.split(' ');
-      const unitIndx = arrIngredients.findIndex(el2 => units.includes(el2));
+      const unitIndx = arrIngredients.findIndex((el2) => units.includes(el2));
 
       let objIngredient;
       if (unitIndx > -1) {
@@ -90,21 +90,21 @@ export default class Recipe {
         objIngredient = {
           count,
           unit: arrIngredients[unitIndx],
-          ingredient: arrIngredients.slice(unitIndx + 1).join(' ')
+          ingredient: arrIngredients.slice(unitIndx + 1).join(' '),
         };
       } else if (parseInt(arrIngredients[0], 10)) {
         // No unit, but first element is integer/number
         objIngredient = {
           count: parseInt(arrIngredients[0], 10),
           unit: ' ',
-          ingredient: arrIngredients.slice(1).join(' ')
+          ingredient: arrIngredients.slice(1).join(' '),
         };
       } else if (unitIndx === -1) {
         // No unit and number exist in first position
         objIngredient = {
           count: 1,
           unit: ' ',
-          ingredient
+          ingredient,
         };
       }
 
@@ -118,7 +118,7 @@ export default class Recipe {
     const newServings = type === 'dec' ? this.servings - 1 : this.servings + 1;
 
     //Ingredients
-    this.ingredients.forEach(ing => {
+    this.ingredients.forEach((ing) => {
       ing.count *= newServings / this.servings;
     });
 
