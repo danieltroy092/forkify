@@ -1,14 +1,20 @@
 {
   "name": "forkify",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Recipe web app utilising Forkify API",
+  "main": "bundle.js",
+  "engines": {
+    "npm": "6.9.0",
+    "node": "10.16.3"
+  },
   "scripts": {
     "dev": "webpack --mode development",
     "build": "webpack --mode production",
-    "start": "webpack-dev-server --mode development --open"
+    "start": "node server.js",
+    "heroku-postbuild": "webpack -p"
   },
   "author": "Troy Ong",
+  "repository": "https://github.com/danieltroy092/forkify",
   "license": "ISC",
   "devDependencies": {
     "babel-core": "^6.26.3",
@@ -22,6 +28,7 @@
   "dependencies": {
     "axios": "^0.19.0",
     "babel-polyfill": "^6.26.0",
+    "express": "^4.17.1",
     "fractional": "^1.0.0",
     "uniqid": "^5.0.3"
   }
